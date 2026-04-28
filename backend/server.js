@@ -73,8 +73,8 @@ app.get('/', (req, res) => {
 });
 
 // Environment setup
-const PORT = process.env.PORT || 5001;
-const MONGO_URI = 'mongodb+srv://gshashwat111:tshashwatagupta111@cluster0.qcegy1i.mongodb.net/placement_management?retryWrites=true&w=majority';
+const PORT = process.env.PORT || 5000;
+const MONGO_URI = process.env.MONGO_URI;
 
 // MongoDB Connection
 mongoose.connect(MONGO_URI)
@@ -85,16 +85,7 @@ mongoose.connect(MONGO_URI)
     console.error('❌ MongoDB connection error:', err.message);
   });
 
-const server = app.listen(PORT, () => {
-  console.log(`🚀 Server is successfully running on port ${PORT}`);
-  console.log(`🛠️  Debug Route ready: http://localhost:${PORT}/api/debug/db-status`);
-}).on('error', (err) => {
-  if (err.code === 'EADDRINUSE') {
-    console.log(`Port ${PORT} is in use. Attempting fallback to port 5002...`);
-    app.listen(5002, () => {
-      console.log(`Server is successfully running on port 5002`);
-    });
-  } else {
-    console.error(err);
-  }
+// Start server
+app.listen(PORT, () => {
+  console.log(`🚀 Server is running on port ${PORT}`);
 });
