@@ -24,7 +24,8 @@ const app = express();
 app.use(cors({
   origin: [
   "http://localhost:5173", 
-  "https://placement-management-yiby.onrender.com"
+  "https://placement-management-yiby.onrender.com",
+  "https://plaacement-management.vercel.app"
 ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],

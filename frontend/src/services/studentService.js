@@ -6,12 +6,16 @@
 
 const isMongoObjectId = (value) => typeof value === 'string' && /^[0-9a-fA-F]{24}$/.test(value);
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 export const saveStudentProfile = async (profileData) => {
   try {
-    const response = await fetch("/api/students/profile", {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_BASE_URL}/api/students/profile`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        ...(token && { "Authorization": `Bearer ${token}` }),
       },
       body: JSON.stringify(profileData),
     });
@@ -43,7 +47,12 @@ export const saveStudentProfile = async (profileData) => {
 export const fetchStudentProfile = async (id) => {
   if (!isMongoObjectId(id)) return null;
   try {
-    const response = await fetch(`/api/students/profile/${id}`);
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_BASE_URL}/api/students/profile/${id}`, {
+      headers: {
+        ...(token && { "Authorization": `Bearer ${token}` }),
+      },
+    });
     let data;
     try {
       data = await response.json();
@@ -72,10 +81,12 @@ export const updateStudentProfile = async (id, profileData) => {
     throw new Error("Invalid student id. Please re-login or recreate the student profile.");
   }
   try {
-    const response = await fetch(`/api/students/profile/${id}`, {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_BASE_URL}/api/students/profile/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        ...(token && { "Authorization": `Bearer ${token}` }),
       },
       body: JSON.stringify(profileData),
     });
