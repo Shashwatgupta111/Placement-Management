@@ -22,7 +22,10 @@ const app = express();
 // Middleware
 // Allow all origins for seamless local development (Vite can run on 5174, 5175 etc)
 app.use(cors({
-  origin: '*',
+  origin: [
+  "http://localhost:5173", 
+  "https://placement-management-yiby.onrender.com"
+],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
